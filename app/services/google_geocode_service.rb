@@ -6,12 +6,15 @@ class GoogleGeocodeService
 
     google_json_data = JSON.parse(response.body, symbolize_names: true)
 
-    geocode_hash = {}
-    geocode_hash[:city] = google_json_data[:results][0][:address_components][0][:long_name]
-    # geocode_hash[:state] = google_json_data[:results][0][:address_components][2][:short_name]
-    # geocode_hash[:country]= google_json_data[:results][0][:address_components][3][:long_name]
-    geocode_hash[:lat] = google_json_data[:results][0][:geometry][:location][:lat]
-    geocode_hash[:long] = google_json_data[:results][0][:geometry][:location][:lng]
+    geocode_hash = {
+    city: google_json_data[:results][0][:address_components][0][:long_name],
+    lat: google_json_data[:results][0][:geometry][:location][:lat],
+    long: google_json_data[:results][0][:geometry][:location][:lng]
+    }
+    if google_json_data[:results][0][:address_components].length > 1
+      geocode_hash[:state] = google_json_data[:results][0][:address_components][2][:short_name]
+      geocode_hash[:country] = google_json_data[:results][0][:address_components][3][:long_name]
+    end 
     geocode_hash
   end
 
