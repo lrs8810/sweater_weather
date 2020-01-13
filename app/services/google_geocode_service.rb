@@ -23,7 +23,7 @@ class GoogleGeocodeService
     google_json_data = JSON.parse(response.body, symbolize_names: true)
 
     geocode_hash = {
-    city: google_json_data[:results][0][:address_components][1][:long_name]
+      city: google_json_data[:results][0][:address_components][1][:long_name]
     }
     geocode_hash
   end
@@ -33,7 +33,6 @@ class GoogleGeocodeService
     def self.connection
       Faraday.new('https://maps.googleapis.com/maps/api/geocode/json') do |faraday|
         faraday.params['key'] = ENV['GOOGLE_API_KEY']
-        # faraday.params['address'] = location
         faraday.adapter Faraday.default_adapter
       end
     end
