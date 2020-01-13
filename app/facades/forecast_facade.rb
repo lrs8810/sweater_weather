@@ -5,6 +5,6 @@ class ForecastFacade
   end
 
   def get_forecast_details
-    @forecast = Forecast.new(@geocode, @forecast_details)
+    Forecast.new(@geocode, @forecast_details)
   end
-end 
+end
