@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe 'Background Image API' do
+describe 'Background Image API', :vcr do
   it "it sends an image based on location" do
 
     get '/api/v1/backgrounds?location=denver,co'
 
     expect(response).to be_successful
 
-    # response = response.body
+    response = response.body
   end
 end
