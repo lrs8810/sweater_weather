@@ -10,6 +10,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
+require './lib/middleware/consider_all_request_json_middleware'
 # require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
@@ -21,6 +22,8 @@ module SweaterWeather
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
+    config.middleware.insert_before(ActionDispatch::Static,ConsiderAllRequestJsonMiddleware)
+
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
