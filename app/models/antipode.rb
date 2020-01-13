@@ -1,10 +1,11 @@
 class Antipode
   attr_reader :id,
               :location_name,
-              :forecast_details,
+              :forecast,
               :search_location
 
   def initialize(antipode, forecast_details, origin)
+    @id = '1'
     @location_name = antipode[:city]
     @forecast = {
       summary: forecast_details[:currently][:summary],
