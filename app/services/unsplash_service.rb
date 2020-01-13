@@ -1,9 +1,8 @@
 class UnsplashService
-  def self.get_background(location)
-    location = "#{location}"
+  def self.get_background_json(location)
     response = connection(location).get.body
 
-    unsplash_json_data = JSON.parse(response, symbolize_names: true)
+    JSON.parse(response, symbolize_names: true)[:results].first
   end
 
   private
@@ -12,7 +11,7 @@ class UnsplashService
       Faraday.new('https://api.unsplash.com/search/photos') do |faraday|
         faraday.params['client_id'] = ENV['UNSPLASH_API_KEY']
         faraday.params['query'] = location
-        # faraday.params['orientation'] = 'landscape'
+        faraday.params['per_page'] = '1'
         faraday.adapter Faraday.default_adapter
       end
     end
