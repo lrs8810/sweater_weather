@@ -1,7 +1,5 @@
 class BackgroundFacade
   def initialize(location)
+    @service ||= UnsplashService.get_background(location)
   end
-
-  def get_background
-  end 
 end
