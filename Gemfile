@@ -42,6 +42,8 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'active_designer', '~> 0.0.3'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
