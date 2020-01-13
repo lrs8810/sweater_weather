@@ -7,6 +7,6 @@ class AntipodeFacade
   end
 
   def get_antipode_response
-    Antipode.new(@forecast_details, @origin_geocode, @antipode_geocode)
+    Antipode.new(@antipode_geocode,@forecast_details, @origin_geocode)
   end
 end
