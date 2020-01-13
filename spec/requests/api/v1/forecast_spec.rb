@@ -5,9 +5,8 @@ describe 'Forecast API' do
 
     get '/api/v1/forecast?location=denver,co'
 
-    binding.pry
     expect(response).to be_successful
 
-    response = response.body
+    # response = response.body
   end
 end

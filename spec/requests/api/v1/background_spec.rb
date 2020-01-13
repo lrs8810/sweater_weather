@@ -7,6 +7,6 @@ describe 'Background Image API' do
 
     expect(response).to be_successful
 
-    response = response.body
+    # response = response.body
   end
 end
