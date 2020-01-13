@@ -1,8 +1,8 @@
 class Api::V1::AntipodeController < ApplicationController
 
   def show
-    # background_facade = BackgroundFacade.new(params[:location])
-    # background = background_facade.get_background
+    antipode_facade = AntipodeFacade.new(params[:location])
+    background = antipode_facade.get_antipode_response
     # render json: BackgroundSerializer.new(background)
   end
 
