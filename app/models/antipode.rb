@@ -7,10 +7,7 @@ class Antipode
   def initialize(antipode, forecast_details, origin)
     @id = '1'
     @location_name = antipode[:city]
-    @forecast = {
-      summary: forecast_details[:currently][:summary],
-      current_temperature: forecast_details[:currently][:temperature]
-    }
+    @forecast = AntipodeForecast.new(forecast_details)
     @search_location = origin[:city]
   end
 end
