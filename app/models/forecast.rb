@@ -19,14 +19,14 @@ class Forecast
   end
 
   def current_weather
-    # current_high = find_high(@current[:time])
-    # current_low = find_low(@current[:time])
+    current_high = find_high
+    current_low = find_low
     {
       summary: @current[:summary],
       icon: @current[:icon],
       current_temp: @current[:temperature],
-      # high_temp: current_high,
-      # low_temp: current_low,
+      high_temp: current_high,
+      low_temp: current_low,
       city: @city_info.city,
       state: @city_info.state,
       country: @city_info.country,
@@ -36,17 +36,17 @@ class Forecast
   end
 
   def current_weather_details
-    # tonight_sum = find_tonight_summary(@current[:time])
-    # uv_indicator = calculate_uv(@current[:uvIndev])
+    tonight_sum = find_tonight_summary
+    uv_indicator = calculate_uv(@current[:uvIndex])
     {
       icon: @current[:icon],
       today_summary: @current[:summary],
-      # tonight_summary: tonight_sum,
+      tonight_summary: tonight_sum,
       apparent_temp: @current[:apparentTemperature],
       humidity: @current[:humidity],
       visibility: @current[:visibility],
       uv_index: @current[:uvIndex],
-      # uv_scale: uv_indicator
+      uv_scale: uv_indicator
     }
   end
 
@@ -82,9 +82,32 @@ class Forecast
     end
   end
 
-  def find_tonight_summary(current_time)
+  def find_high
+    today = @daily.first
+    today[:temperatureHigh]
+  end
+
+  def find_low
+    today = @daily.first
+    today[:temperatureLow]
+  end
+
+  def find_tonight_summary
+    eight_pm = @hourly.find do |day|
+    (((Time.at(day[:time]).to_time).in_time_zone(@timezone)).strftime("%k")).to_i == 20
+    end
+    eight_pm[:icon]
   end
 
   def calculate_uv(uvindex)
+    if uvindex.nil?
+      'none'
+    elsif uvindex <= 2
+      'low'
+    elsif uvindex.between?(3, 7)
+      'moderate to high'
+    else
+      'very high to extreme'
+    end
   end
 end
