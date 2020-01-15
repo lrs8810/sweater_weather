@@ -1,55 +1,90 @@
 class Forecast
-  attr_reader :id, :results
+  attr_reader :id,
+              :current_weather,
+              :current_weather_details,
+              :hourly_forecast,
+              :daily_forecast
 
-  def initialize(geocode_hash, forecast_details_hash)
-    @id = '1'
-    results = {}
-    results[:current_temp] = []
+  def initialize(city_info, forecast_json)
+    @id = 1.to_s
+    @current = forecast_json[:currently]
+    @hourly = forecast_json[:hourly][:data]
+    @daily = forecast_json[:daily][:data]
+    @timezone = forecast_json[:timezone]
+    @city_info = city_info
+    @current_weather = current_weather
+    @current_weather_details = current_weather_details
+    @hourly_forecast = format_hourly
+    @daily_forecast = format_daily
+  end
 
-    # box 1
-    upper_left = {
-    date: Time.at(forecast_details_hash[:currently][:time]).to_date,
-    time: Time.at(forecast_details_hash[:currently][:time]).to_time,
-    current_temp: forecast_details_hash[:currently][:temperature],
-    summary: forecast_details_hash[:currently][:summary],
-    icon: forecast_details_hash[:currently][:icon],
-    # high_temp =
-    # low_temp =
-    city: geocode_hash[:city],
-    state: geocode_hash[:state],
-    country: geocode_hash[:country]
+  def current_weather
+    # current_high = find_high(@current[:time])
+    # current_low = find_low(@current[:time])
+    {
+      summary: @current[:summary],
+      icon: @current[:icon],
+      current_temp: @current[:temperature],
+      # high_temp: current_high,
+      # low_temp: current_low,
+      city: @city_info.city,
+      state: @city_info.state,
+      country: @city_info.country,
+      time: format_current_date,
+      date: format_current_time
     }
-    results[:current_temp] << upper_left
-    #box 2
-    upper_right = {
-    summary: forecast_details_hash[:currently][:summary],
-    apparent_temp: forecast_details_hash[:currently][:apparentTemperature],
-    humidity: forecast_details_hash[:currently][:humidity],
-    visibility: forecast_details_hash[:currently][:visibility],
-    uv_index: forecast_details_hash[:currently][:uvIndex],
-    icon: forecast_details_hash[:currently][:icon]
+  end
+
+  def current_weather_details
+    # tonight_sum = find_tonight_summary(@current[:time])
+    # uv_indicator = calculate_uv(@current[:uvIndev])
+    {
+      icon: @current[:icon],
+      today_summary: @current[:summary],
+      # tonight_summary: tonight_sum,
+      apparent_temp: @current[:apparentTemperature],
+      humidity: @current[:humidity],
+      visibility: @current[:visibility],
+      uv_index: @current[:uvIndex],
+      # uv_scale: uv_indicator
     }
-    results[:current_temp] << upper_right
-    #box 3
-    results[:hourly_daily] = {}
-    results[:hourly_daily][:hourly] = forecast_details_hash[:hourly][:data].take(8).inject([]) do |array, hour|
-      hash = {
-        time: Time.at(hour[:time]).to_time,
+  end
+
+  def format_current_date
+    ((Time.at(@current[:time]).to_date).in_time_zone(@timezone)).strftime("%m/%y")
+  end
+
+  def format_current_time
+    ((Time.at(@current[:time]).to_time).in_time_zone(@timezone)).strftime("%l:%M %p")
+  end
+
+  def format_hourly
+    @hourly.take(8).inject([]) do |array, hour|
+      array << {
+        time: ((Time.at(hour[:time]).to_time).in_time_zone(@timezone)).strftime("%l %p"),
         temp: hour[:temperature]
       }
-      array << hash
+      array
     end
-    results[:hourly_daily][:daily] = forecast_details_hash[:daily][:data].take(5).inject([]) do |array, day|
-      hash = {
-        date: Time.at(day[:time]).to_date,
+  end
+
+  def format_daily
+    @daily.take(5).inject([]) do |array, day|
+      array << {
+        date: ((Time.at(day[:time]).to_date).in_time_zone(@timezone)).strftime("%A"),
         icon: day[:icon],
         precip_probability: day[:precipProbability],
         precip_type: day[:precipType],
         temp_high: day[:temperatureHigh],
         temp_low: day[:temperatureLow]
       }
-      array << hash
+      array
     end
-    @results = results
+  end
+
+  def find_tonight_summary(current_time)
+  end
+
+  def calculate_uv(uvindex)
   end
 end
