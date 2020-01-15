@@ -11,6 +11,8 @@ class Api::V1::SessionsController < ApplicationController
 
   private
   def user_error_message
-    'The email and password you entered did not match our records. Please double-check and try again.'
+    {
+      error: 'The email and password you entered did not match our records. Please double-check and try again.'
+    }
   end
 end
