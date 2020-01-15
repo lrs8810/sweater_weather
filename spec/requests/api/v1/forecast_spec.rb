@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe 'Forecast API', :type => :request do
   it "it sends all the forecast details for a city", :vcr do
+    WebMock.enable_net_connect!
+    VCR.eject_cassette
+    VCR.turn_off!(ignore_cassettes: true)
+    
     get '/api/v1/forecast?location=denver,co'
 
     last_response = response
