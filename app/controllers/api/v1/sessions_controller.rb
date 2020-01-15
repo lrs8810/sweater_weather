@@ -1,5 +1,4 @@
 class Api::V1::SessionsController < ApplicationController
-
   def create
     user = User.find_by(email: params[:email])
     if user&.authenticate(params[:password])
@@ -10,7 +9,10 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   private
+  
   def user_error_message
-    'The email and password you entered did not match our records. Please double-check and try again.'
+    {
+      error: 'The email and password you entered did not match our records. Please double-check and try again.'
+    }
   end
 end
