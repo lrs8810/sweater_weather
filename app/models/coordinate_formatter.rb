@@ -1,4 +1,4 @@
-class GeocodeFormatter
+class CoordinateFormatter
   attr_reader :lat,
               :long
 
@@ -6,6 +6,11 @@ class GeocodeFormatter
     @lat = json_data[:results][0][:geometry][:location][:lat]
     @long = json_data[:results][0][:geometry][:location][:lng]
   end
+
+  # geocode_hash = {
+  #   city: google_json_data[:results][0][:address_components][1][:long_name]
+  # }
+  # geocode_hash
 
   # def self.format_coords(json_data)
   #   geocode_hash = {

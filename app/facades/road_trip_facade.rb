@@ -20,7 +20,7 @@ class RoadTripFacade
 
   def arrival_forecast
     geocode_json_data = GoogleService.get_geo_json(@destination)
-    coords = GeocodeFormatter.new(geocode_json_data)
+    coords = CoordinateFormatter.new(geocode_json_data)
     weather_json_data = DarkSkyService.get_forecast(coords.lat, coords.long)
     ForecastFormatter.new(weather_json_data)
   end
