@@ -3,12 +3,11 @@ class Api::V1::RoadTripController < ApplicationController
 
   def create
     roadtrip_facade = RoadTripFacade.new(road_trip_params)
-    data = roadtrip_facade.google_map_json
-    render json: RoadTripSerializer.new(data)
+    render json: RoadTripSerializer.new(roadtrip_facade)
   end
 
   private
-  
+
   def authenticate
     user = User.find_by(api_key: params[:api_key])
     if user.nil?
