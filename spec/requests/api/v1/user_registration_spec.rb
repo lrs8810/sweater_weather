@@ -8,14 +8,10 @@ describe 'User Registration API' do
       password_confirmation: 'password'
     }
 
-    post "/api/v1/users", params: {user: user_params}.to_json
-
-    request_params = request.params['user'].symbolize_keys
-
-    expect(request_params).to eq(user_params)
+    post "/api/v1/users", params: user_params.to_json
 
     last_response = response
-    
+
     expect(last_response.status).to eq(201)
 
     response_body = JSON.parse(last_response.body, symbolize_names: true)
