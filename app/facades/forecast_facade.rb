@@ -1,6 +1,6 @@
 class ForecastFacade
   def initialize(location)
-    @geocode = GoogleGeocodeService.get_geocode(location)
+    @geocode = GoogleService.get_geo_json(location)
     @forecast_details = DarkSkyService.get_forecast(@geocode[:lat], @geocode[:long])
   end
 

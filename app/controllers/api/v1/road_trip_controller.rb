@@ -2,8 +2,8 @@ class Api::V1::RoadTripController < ApplicationController
   before_action :authenticate
 
   def create
-    roadtrip_facade = RoadTripFacade.new(road_trip_params)
-    render json: RoadTripSerializer.new(roadtrip_facade)
+    road_trip_facade = RoadTripFacade.new(road_trip_params)
+    render json: RoadTripSerializer.new(road_trip_facade)
   end
 
   private
