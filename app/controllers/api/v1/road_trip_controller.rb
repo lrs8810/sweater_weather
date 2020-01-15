@@ -8,6 +8,7 @@ class Api::V1::RoadTripController < ApplicationController
   end
 
   private
+  
   def authenticate
     user = User.find_by(api_key: params[:api_key])
     if user.nil?
